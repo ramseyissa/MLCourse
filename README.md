@@ -1,2 +1,3 @@
 # MLCourse
-U of U Machine Learning Course / Homework and Projects 
+This is a machine learning library developed by Ramsey Issa for CS5350/6350 in
+University of Utah. 
