@@ -183,10 +183,6 @@ def predt_ins_tree(inst, tree):
 
 
 
-
-
-
-
 def predt(data, tree):
   label_predicted = []
   for i in range(len(data)):
@@ -242,6 +238,7 @@ print(df_3a)
 #     print(train_bank[i].mode().tolist())
     
 #replace poutcome col with second best because unknown is most commmon
+#issues with forloop to replace unknown values 
 
 train_bank['age'] = train_bank['age'].replace('unknown','32')
 train_bank['job'] = train_bank['job'].replace('unknown','blue-collar')
