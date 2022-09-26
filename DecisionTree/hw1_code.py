@@ -8,10 +8,10 @@ import sys
 
 
 
-train_car= pd.read_csv('DecisionTree/train.csv')
-test_car = pd.read_csv('DecisionTree/test.csv')
-train_bank = pd.read_csv('DecisionTree/trainbank.csv')
-test_bank = pd.read_csv('DecisionTree/testbank.csv')
+train_car= pd.read_csv('train.csv')
+test_car = pd.read_csv('test.csv')
+train_bank = pd.read_csv('trainbank.csv')
+test_bank = pd.read_csv('testbank.csv')
 
 
 
@@ -273,3 +273,4 @@ for g in gain:
     bank_train_df_16[g] = train
 df_3b = pd.DataFrame.from_dict(bank_train_df_16)
 print(df_3b)
+
