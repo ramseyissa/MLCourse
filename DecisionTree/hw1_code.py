@@ -8,10 +8,10 @@ import sys
 
 
 
-train_car= pd.read_csv('train.csv')
-test_car = pd.read_csv('test.csv')
-train_bank = pd.read_csv('trainbank.csv')
-test_bank = pd.read_csv('testbank.csv')
+train_car= pd.read_csv('DecisionTree/train.csv')
+test_car = pd.read_csv('DecisionTree/test.csv')
+train_bank = pd.read_csv('DecisionTree/trainbank.csv')
+test_bank = pd.read_csv('DecisionTree/testbank.csv')
 
 
 
@@ -181,69 +181,41 @@ def predt_ins_tree(inst, tree):
         prediction = mode(vals(tree))
   return prediction
 
+
+
+
+
+# def predt(data, tree):
+#   label_predicted_err = []
+#   for i in range(len(data)):
+#     inst = data.iloc[i,:]
+#     true_labl = (train_car)
+#     prediction = predt_ins_tree(inst, tree)
+#     pred_err = (true_labl - prediction/len(data))*100
+#     label_predicted_err.append(pred_err)
+#   return label_predicted_err
+
+
+
+
 def predt(data, tree):
   label_predicted = []
   for i in range(len(data)):
     inst = data.iloc[i,:]
     prediction = predt_ins_tree(inst, tree)
-    label_predicted.append(prediction)
+    accur = label_predicted.append(prediction)
   accur = metrics.accuracy_score(data[data.columns[-1]], label_predicted)
   return accur
 
 
-
-#score prediction accuracy for car data 
-# tree_car = ID3(train_car)
-# Predt_car = predt(train_car,tree_car)
-# print(tree_car)
-# print(Predt_car)
-
-# tree_car = ID3(train_car,tree_depth=1)
-# Predt_car = predt(train_car,tree_car)
-# Predt_car_test = predt(test_df,tree_car)
-
-# tree_car2 = ID3(train_df,tree_depth=2)
-# Predt_car2 = predt(train_df,tree_car2)
-# Predt_car_test2 = predt(test_df,tree_car2)
-
-# tree_car3 = ID3(train_df,tree_depth=2)
-# Predt_car3 = predt(train_df,tree_car3)
-# Predt_car_test3 = predt(test_df,tree_car3)
-
-# tree_car = ID3(train_df)
-# Predt_car = predt(test_df,tree_car)
-
-# tree_car = ID3(train_df,tree_depth=1)
-# Predt_car = predt(train_df,tree_car)
-# Predt_car_test = predt(test_df,tree_car)
-
-# tree_car2 = ID3(train_df,tree_depth=2)
-# Predt_car2 = predt(train_df,tree_car2)
-# Predt_car_test2 = predt(test_df,tree_car2)
-
-# tree_car3 = ID3(train_df,tree_depth=2)
-# Predt_car3 = predt(train_df,tree_car3)
-# Predt_car_test3 = predt(test_df,tree_car3)
-# bank Data
-
-# dep = [1, 2, 3, 4, 5, 6]
-# train = []
-# for i in dep:
-#     tree= ID3(train_df, gain = 'gi', tree_depth = i)
-#     train_accuracy = predt(train_df, tree)
-#     print(tree)
-#     train.append(train_accuracy)
-#     print(train_accuracy)
-
-
-# dep = [1, 2, 3, 4, 5, 6]
-# train = []
-# for i in dep:
-#     tree= ID3(train_df, gain = 'gi', tree_depth = i)
-#     train_accuracy = predt(test_df, tree)
-#     print(tree)
-#     train.append(train_accuracy)
-#     print(train_accuracy)
+# def predt(data, tree):
+#   label_predicted = []
+#   for i in range(len(data)):
+#     inst = data.iloc[i,:]
+#     prediction = predt_ins_tree(inst, tree)
+#     label_predicted.append(prediction)
+#   # accur = metrics.accuracy_score(data[data.columns[-1]], label_predicted)
+#   return accur
 
 
 # gain = ['S', 'me', 'gi']
@@ -259,11 +231,14 @@ def predt(data, tree):
 
 car_train_df = {}
 gain = ['S', 'me','gi']
-dep = [1, 2,3,4,5,6]
+dep = [1,2,3,4,5,6]
 for g in gain:  
     train = []
     for i in dep:
         tree= ID3(train_bank, gain = g, tree_depth = i)
-        train_accuracy = predt(test_bank, tree)
-        train.append(train_accuracy)
+        # true_val = ID3(train_bank, gain = g, tree_depth = i)
+        true_val = predt(train_bank, tree)
+        pred_acc = predt(test_bank, tree)
+        pred_err = ((true_val - pred_acc))
+        train.append(pred_err)
     car_train_df[g] = train
