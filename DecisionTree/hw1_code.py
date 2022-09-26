@@ -1,17 +1,15 @@
 import numpy as np
 from statistics import mode
-from sklearn.metrics import accuracy_score
-from sklearn import metrics
 import pandas as pd
 import os
 import sys
 
 
 
-train_car= pd.read_csv('train.csv')
-test_car = pd.read_csv('test.csv')
-train_bank = pd.read_csv('trainbank.csv')
-test_bank = pd.read_csv('testbank.csv')
+train_car= pd.read_csv('DecisionTree/train.csv')
+test_car = pd.read_csv('DecisionTree/test.csv')
+train_bank = pd.read_csv('DecisionTree/trainbank.csv')
+test_bank = pd.read_csv('DecisionTree/testbank.csv')
 
 
 
@@ -136,9 +134,12 @@ def popu_df(data, att, val):
 #ID3 
 def ID3(data, tree = None, gain = 'S', tree_depth=50):
   #first use inf gain specified in gain
-  node = inf_gain(data, gain)               
+  node = inf_gain(data, gain)
+  #get uniq vals               
   cnt_att = np.unique(data[node])
+  #get label name 
   data_label = data.keys()[-1]
+  #set dep to zero
   deph = 0
   if tree is None:
     tree = {}
@@ -183,14 +184,22 @@ def predt_ins_tree(inst, tree):
 
 
 
+#predict f(x) 
 def predt(data, tree):
   label_predicted = []
+  error = []
+  # prd_error = []
   for i in range(len(data)):
     inst = data.iloc[i,:]
     prediction = predt_ins_tree(inst, tree)
     label_predicted.append(prediction)
-  accur = metrics.accuracy_score(data[data.columns[-1]], label_predicted)
-  return accur
+    #add 1 for error 0 for non-error
+    if prediction == data[data.columns[-1]][i]:
+      error.append(0)
+    else:
+      error.append(1)
+  pred_error = sum(error)/len(data)
+  return pred_error
 
 
 
@@ -204,8 +213,8 @@ for g in gain:
         # true_val = ID3(train_bank, gain = g, tree_depth = i)
         true_val = predt(train_car, tree)
         pred_acc = predt(test_car, tree)
-        pred_err = ((true_val -pred_acc )/true_val)*100
-        train.append(pred_err)
+        # pred_err = ((true_val -pred_acc )/true_val)*100
+        train.append(pred_acc)
     car_train_df[g] = train
 
 df_2b = pd.DataFrame.from_dict(car_train_df)
@@ -222,8 +231,8 @@ for g in gain:
         # true_val = ID3(train_bank, gain = g, tree_depth = i)
         true_val = predt(train_bank, tree)
         pred_acc = predt(test_bank, tree)
-        pred_err = ((true_val -pred_acc )/true_val)*100
-        train.append(pred_err)
+        # pred_err = ((true_val -pred_acc )/true_val)*100
+        train.append(pred_acc)
     bank_train_df[g] = train
 df_3a = pd.DataFrame.from_dict(bank_train_df)
 print(df_3a)
@@ -268,8 +277,8 @@ for g in gain:
         # true_val = ID3(train_bank, gain = g, tree_depth = i)
         true_val = predt(train_bank, tree)
         pred_acc = predt(test_bank, tree)
-        pred_err = ((true_val -pred_acc )/true_val)*100
-        train.append(pred_err)
+        # pred_err = ((true_val -pred_acc )/true_val)*100
+        train.append(pred_acc)
     bank_train_df_16[g] = train
 df_3b = pd.DataFrame.from_dict(bank_train_df_16)
 print(df_3b)
