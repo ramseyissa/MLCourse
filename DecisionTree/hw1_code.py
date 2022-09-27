@@ -82,11 +82,12 @@ def me_att(data, attr):
     #get uniq vals for att
     att_cntr, labl_cnt = np.unique(data[label][data[attr] == vals_], return_counts = True)
     #get max val
-    cnt_labl = np.amax(labl_cnt)
-    tot = len(data[attr][data[attr] == vals_])
-    prob = cnt_labl/tot
-    me = 1 - prob
-    m_e = m_e + (tot/len(data))*me
+    for i in labl_cnt:
+      cnt_labl = np.amax(labl_cnt)
+      tot = len(data[attr][data[attr] == vals_])
+      prob = cnt_labl/tot
+      me = 1 - prob
+      m_e = m_e + (tot/len(data))*me
   return np.float64(m_e)
 
 
@@ -134,6 +135,8 @@ def inf_gain(data, gain):
     for key in data.columns[:-1]:
       infor_gain.append(gini_tot(data) - gini_attribs(data, key))
     return data.keys()[:-1][np.argmax(infor_gain)]
+  else:
+    pass
 
 
 #pop df and index
