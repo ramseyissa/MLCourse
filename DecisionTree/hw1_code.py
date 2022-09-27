@@ -78,6 +78,7 @@ def me_att(data, attr):
   #get uniq vals
   uniqu_vals = data[attr].unique()
   m_e = 0
+  me_= []
   for vals_ in uniqu_vals:
     #get uniq vals for att
     att_cntr, labl_cnt = np.unique(data[label][data[attr] == vals_], return_counts = True)
@@ -107,6 +108,7 @@ def gini_attribs(data, att):
   unique_att = data[att].unique()
   uniqu_val = data[label].unique()
   gini_att = 0
+  gi = []
   for atrribs in unique_att:
     gi_i = 1
     for vals_ in uniqu_val:
@@ -114,7 +116,9 @@ def gini_attribs(data, att):
       total_cnt = len(data[att][data[att] == atrribs])
       prob = cnt_/total_cnt
       gi_i = gi_i + -prob**2
-    gini_att = gini_att + (total_cnt/len(data))*gi_i
+      gi.append(gi_i)
+      for i in gi:
+        gini_att = gini_att + (total_cnt/len(data))*gi_i
   return np.float64(gini_att)
 
 
