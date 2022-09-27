@@ -5,7 +5,7 @@ import pandas as pd
 
 
 #this work was done incollaboration with Hasan Sayeed PhD candidate MSE
-#sources used to produce this work were stackoverflow, github, towards data science
+#sources used to produce this work were lecture slides, stackoverflow, github, towards data science
 #articles  
 
 
