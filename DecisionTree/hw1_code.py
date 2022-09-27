@@ -28,10 +28,13 @@ def s_tot(data):
   #get uniq label values
   cnt_uniq = data[data_label].unique()    
   s_tot = 0
+  prob_ = []
   for val in cnt_uniq:
     #calc the prob
     prob = data[data_label].value_counts()[val]/len(data[data_label])
-    s_tot = s_tot + -prob * np.log2(prob)
+    prob_.append(prob)
+    for i in prob_:
+      s_tot = s_tot + -prob * np.log2(prob)
   return np.float64(s_tot)
 
 
