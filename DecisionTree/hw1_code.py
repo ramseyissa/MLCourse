@@ -1,8 +1,7 @@
 import numpy as np
 from statistics import mode
 import pandas as pd
-import os
-import sys
+
 
 
 #this work was done incollaboration with Hasan Sayeed PhD candidate MSE
@@ -148,10 +147,12 @@ def ID3(data, tree = None, gain = 'S', tree_depth=50):
   #set dep to zero
   deph = 0
   if tree is None:
+    # int tree dic
     tree = {}
     tree[node] = {}
   for att_cnt in cnt_att:           
     updated_data = popu_df(data,node,att_cnt)
+    #get uniq lbl cnts
     lbl_val, lbl_cnts = np.unique(updated_data[data_label], return_counts = True)
     if len(lbl_cnts) == 1:
       tree[node][att_cnt] = lbl_val[0]
@@ -204,6 +205,7 @@ def predt(data, tree):
       error.append(0)
     else:
       error.append(1)
+      #pred err 
   pred_error = sum(error)/len(data)
   return pred_error
 
