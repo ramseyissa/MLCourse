@@ -72,11 +72,15 @@ def me_tot(data):
 
 #calc me of att
 def me_att(data, attr):
+  #get label col name
   label = data.keys()[-1]
+  #get uniq vals
   uniqu_vals = data[attr].unique()
   m_e = 0
   for vals_ in uniqu_vals:
+    #get uniq vals for att
     att_cntr, labl_cnt = np.unique(data[label][data[attr] == vals_], return_counts = True)
+    #get max val
     cnt_labl = np.amax(labl_cnt)
     tot = len(data[attr][data[attr] == vals_])
     prob = cnt_labl/tot
