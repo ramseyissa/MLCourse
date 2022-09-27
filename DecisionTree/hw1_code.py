@@ -24,7 +24,7 @@ test_bank = pd.read_csv('DecisionTree/testbank.csv')
 #entropy of dataset calculation
 def s_tot(data):
   #get data label col name
-  data_label = data.keys()[-1]
+  data_label = data.columns[-1]
   #get uniq label values
   cnt_uniq = data[data_label].unique()    
   s_tot = 0
@@ -38,7 +38,7 @@ def s_tot(data):
 #entropy of att calculation
 def s_att(data, attri):
   #get label value name
-  data_label = data.keys()[-1]
+  data_label = data.columns[-1]
   #get uniq att vals
   att_vals = data[attri].unique()
   #get uniq label vals
@@ -60,7 +60,7 @@ def s_att(data, attri):
 #calculate ME of total dataset
 def me_tot(data):
   #get data label
-  data_lbl = data.keys()[-1]
+  data_lbl = data.columns[-1]
   #get unique vals
   labl_uni, lbl_tot = np.unique(data[data_lbl], return_counts = True)  
   #get max
@@ -73,7 +73,7 @@ def me_tot(data):
 #calc me of att
 def me_att(data, attr):
   #get label col name
-  label = data.keys()[-1]
+  label = data.columns[-1]
   #get uniq vals
   uniqu_vals = data[attr].unique()
   m_e = 0
@@ -91,7 +91,7 @@ def me_att(data, attr):
 
 #get gini index of dataset
 def gini_tot(data):
-  data_label = data.keys()[-1]
+  data_label = data.columns[-1]
   unique_labl = data[data_label].unique()    
   gi_tot = 1
   for i in unique_labl:
@@ -101,7 +101,7 @@ def gini_tot(data):
 
 #get gini att
 def gini_attribs(data, att):
-  label = data.keys()[-1]
+  label = data.columns[-1]
   unique_att = data[att].unique()
   uniqu_val = data[label].unique()
   gini_att = 0
@@ -120,17 +120,17 @@ def gini_attribs(data, att):
 def inf_gain(data, gain):
   infor_gain = []
   if gain=='S':
-    for key in data.keys()[:-1]:
+    for key in data.columns[:-1]:
       infor_gain.append(s_tot(data) - s_att(data, key))
     return data.keys()[:-1][np.argmax(infor_gain)]
   
   elif gain=='me':
-    for key in data.keys()[:-1]:
+    for key in data.columns[:-1]:
       infor_gain.append(me_tot(data) - me_att(data, key))
     return data.keys()[:-1][np.argmax(infor_gain)]
 
   elif gain=='gi':
-    for key in data.keys()[:-1]:
+    for key in data.columns[:-1]:
       infor_gain.append(gini_tot(data) - gini_attribs(data, key))
     return data.keys()[:-1][np.argmax(infor_gain)]
 
