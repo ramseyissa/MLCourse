@@ -5,6 +5,12 @@ import os
 import sys
 
 
+#this work was done incollaboration with Hasan Sayeed PhD candidate MSE
+#sources used to produce this work were stackoverflow, github, towards data science
+#articles  
+
+
+
 
 train_car= pd.read_csv('DecisionTree/train.csv')
 test_car = pd.read_csv('DecisionTree/test.csv')
