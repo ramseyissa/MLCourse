@@ -135,7 +135,7 @@ def inf_gain(data, gain):
     return data.keys()[:-1][np.argmax(infor_gain)]
 
 
-#indexing df
+#pop df and index
 def popu_df(data, att, val):
   return data[data[att] == val].reset_index(drop = True)
 
