@@ -64,9 +64,10 @@ def me_tot(data):
   #get unique vals
   labl_uni, lbl_tot = np.unique(data[data_lbl], return_counts = True)  
   #get max
-  cnt_vals = np.amax(lbl_tot)
-  probl = cnt_vals/len(data[data_lbl])
-  me_tot = 1 - probl
+  for i in lbl_tot:
+    cnt_vals = np.amax(lbl_tot)
+    probl = cnt_vals/len(data[data_lbl])
+    me_tot = 1 - probl
   return np.float64(me_tot)
 
 
@@ -167,6 +168,8 @@ def ID3(data, tree = None, gain = 'S', tree_depth=50):
       elif deph==tree_depth:
         max_labl = np.where(lbl_cnts == np.amax(lbl_cnts))
         tree[node][att_cnt] = lbl_val[max_labl[0][0]]
+      else:
+        pass
   return tree
 
 #stackoverflow solution for nested dict
@@ -207,8 +210,10 @@ def predt(data, tree):
     #add 1 for error 0 for non-error
     if prediction == data[data.columns[-1]][i]:
       error.append(0)
-    else:
+    elif prediction != data[data.columns[-1]][i]:
       error.append(1)
+    else:
+      pass
       #pred err 
   pred_error = sum(error)/len(data)
   return pred_error
@@ -236,6 +241,7 @@ print(df_2b)
 bank_train_df = {}
 gain = ['S', 'me','gi']
 dep = [1, 2, 3, 4, 5, 6,7,8,9,10,11,12,13,14,15,16]
+# dep = [1, 2, 3, 4]
 for g in gain:  
     train = []
     for i in dep:
@@ -281,6 +287,7 @@ train_bank['y'] = train_bank['y'].replace('unknown','no')
 
 bank_train_df_16 = {}
 gain = ['S', 'me','gi']
+# dep = [1, 2, 3, 4]
 dep = [1, 2, 3, 4, 5, 6,7,8,9,10,11,12,13,14,15,16]
 for g in gain:  
     train = []
