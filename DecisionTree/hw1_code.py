@@ -5,7 +5,8 @@ import pandas as pd
 
 
 #this work was done incollaboration with Hasan Sayeed PhD candidate MSE
-#sources used to produce this work were lecture slides, stackoverflow, github, towards data science
+#sources used to produce this work were lecture slides, stackoverflow, github, towards
+#data science, youtube.
 #articles  
 
 
@@ -40,6 +41,7 @@ def s_tot(data):
 
 #entropy of att calculation
 def s_att(data, attri):
+  eps = 0.0001
   #get label value name
   data_label = data.columns[-1]
   #get uniq att vals
@@ -55,7 +57,7 @@ def s_att(data, attri):
       #calc prob
       prob = cnt_val/cnt_tot
       # + 0.0001 added to avoid div by zero area 
-      s_i = s_i + -prob * np.log2(prob + 0.0001)
+      s_i = s_i + -prob * np.log2(prob + eps)
     s = s + (cnt_tot/len(data))*s_i
   return np.float64(s)
 
@@ -68,6 +70,7 @@ def me_tot(data):
   labl_uni, lbl_tot = np.unique(data[data_lbl], return_counts = True)  
   #get max
   for i in lbl_tot:
+    #extract max val in labl array
     cnt_vals = np.amax(lbl_tot)
     probl = cnt_vals/len(data[data_lbl])
     me_tot = 1 - probl
@@ -165,15 +168,19 @@ def ID3(data, tree = None, gain = 'S', tree_depth=50):
     # int tree dic
     tree = {}
     tree[node] = {}
-  for att_cnt in cnt_att:           
+  for att_cnt in cnt_att:  
+    #gets subtable to look at (ex: where outlook is sunny)         
     updated_data = popu_df(data,node,att_cnt)
-    #get uniq lbl cnts
+    #list of label enteries and count of those entries
     lbl_val, lbl_cnts = np.unique(updated_data[data_label], return_counts = True)
+    #if the tree is pure (==1) take that value
     if len(lbl_cnts) == 1:
+      #assign that value 
       tree[node][att_cnt] = lbl_val[0]
     else:
       deph = deph + 1
       if deph<tree_depth:
+        #recursive call if not pure 
         tree[node][att_cnt] = ID3(updated_data)
       elif deph==tree_depth:
         max_labl = np.where(lbl_cnts == np.amax(lbl_cnts))
@@ -183,6 +190,7 @@ def ID3(data, tree = None, gain = 'S', tree_depth=50):
   return tree
 
 #stackoverflow solution for nested dict
+#this returns back to the node if instance not seen in the train data
 def vals(x):
     if isinstance(x, dict):
         result = []
@@ -225,7 +233,7 @@ def predt(data, tree):
     else:
       pass
       #pred err 
-  pred_error = sum(error)/len(data)
+  pred_error = sum(error)/len(label_predicted)
   return pred_error
 
 
