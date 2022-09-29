@@ -34,8 +34,7 @@ def s_tot(data):
     #calc the prob
     prob = data[data_label].value_counts()[val]/len(data[data_label])
     prob_.append(prob)
-    for i in prob_:
-      s_tot = s_tot + -prob * np.log2(prob)
+    s_tot = s_tot + -prob * np.log2(prob)
   return np.float64(s_tot)
 
 
@@ -75,6 +74,9 @@ def me_tot(data):
     probl = cnt_vals/len(data[data_lbl])
     me_tot = 1 - probl
   return np.float64(me_tot)
+
+
+
 
 
 #calc me of att
@@ -284,6 +286,8 @@ print(df_3a)
     
 #replace poutcome col with second best because unknown is most commmon
 #issues with forloop to replace unknown values 
+
+
 
 train_bank['age'] = train_bank['age'].replace('unknown','32')
 train_bank['job'] = train_bank['job'].replace('unknown','blue-collar')
