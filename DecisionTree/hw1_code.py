@@ -1,6 +1,7 @@
 import numpy as np
 from statistics import mode
 import pandas as pd
+from sklearn.model_selection import learning_curve
 
 
 
@@ -61,43 +62,44 @@ def s_att(data, attri):
   return np.float64(s)
 
 
-#calculate ME of total dataset
+
+
+# majority error total
 def me_tot(data):
   #get data label
   data_lbl = data.columns[-1]
   #get unique vals
-  labl_uni, lbl_tot = np.unique(data[data_lbl], return_counts = True)  
-  #get max
-  for i in lbl_tot:
-    #extract max val in labl array
-    cnt_vals = np.amax(lbl_tot)
-    probl = cnt_vals/len(data[data_lbl])
-    me_tot = 1 - probl
-  return np.float64(me_tot)
-
-
-
+  uniq_vals = data[data_lbl].unique()
+  uniq_val_lst = []
+  for vals in uniq_vals:
+    val_cnt = len(data[data_lbl][data[data_lbl] == vals])
+    uniq_val_lst.append(val_cnt)
+  #for min val in list, divide by entire labels  
+  me_tot = min(uniq_val_lst)/len(data[data_lbl])
+  return me_tot
 
 
 #calc me of att
 def me_att(data, attr):
   #get label col name
   label = data.columns[-1]
-  #get uniq vals
-  uniqu_vals = data[attr].unique()
-  m_e = 0
+  #get uniq attributes
+  uniqu_att = data[attr].unique()
+  #uniq labels
+  uniq_labls = data[label].unique()
+  me = 0
   me_= []
-  for vals_ in uniqu_vals:
-    #get uniq vals for att
-    att_cntr, labl_cnt = np.unique(data[label][data[attr] == vals_], return_counts = True)
-    #get max val
-    for i in labl_cnt:
-      cnt_labl = np.amax(labl_cnt)
-      tot = len(data[attr][data[attr] == vals_])
-      prob = cnt_labl/tot
-      me = 1 - prob
-      m_e = m_e + (tot/len(data))*me
-  return np.float64(m_e)
+  for vals in uniqu_att:
+    for lbl in uniq_labls:
+      cnt_att = len(data[attr][data[attr]==vals][data[label]==lbl])
+      tot_att = len(data[attr][data[attr]==vals])
+      prob = cnt_att/tot_att
+      comb_prob = tot_att/len(data)
+      me = me + comb_prob*prob
+      me_.append(me)
+  me_final = sum(me_)
+  return me_final
+
 
 
 #get gini index of dataset
