@@ -6,22 +6,12 @@ from sklearn.model_selection import learning_curve
 
 
 #this work was done incollaboration with Hasan Sayeed PhD candidate MSE
-#sources used to produce this work were lecture slides, stackoverflow, github, towards
-#data science, youtube.
-#articles  
-
-
 
 
 train_car= pd.read_csv('DecisionTree/train.csv')
 test_car = pd.read_csv('DecisionTree/test.csv')
 train_bank = pd.read_csv('DecisionTree/trainbank.csv')
 test_bank = pd.read_csv('DecisionTree/testbank.csv')
-
-
-
-
-
 
 #entropy of dataset calculation
 def s_tot(data):
@@ -60,8 +50,6 @@ def s_att(data, attri):
       s_i = s_i + -prob * np.log2(prob + eps)
     s = s + (cnt_tot/len(data))*s_i
   return np.float64(s)
-
-
 
 
 # majority error total
