@@ -94,11 +94,13 @@ def me_att(data, attr):
 def gini_tot(data):
   data_label = data.columns[-1]
   unique_labl = data[data_label].unique()    
-  gi_tot = 1
+  gi_tot = 0
   for i in unique_labl:
     prob = data[data_label].value_counts()[i]/len(data[data_label])
-    gi_tot = gi_tot + -prob**2
-  return np.float64(gi_tot)
+    gi_tot = gi_tot + prob**2
+  gi_final = 1 - gi_tot 
+  return gi_final
+
 
 #get gini att
 def gini_attribs(data, att):
