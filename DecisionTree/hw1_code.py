@@ -26,7 +26,7 @@ def s_tot(data):
     prob = data[data_label].value_counts()[val]/len(data[data_label])
     prob_.append(prob)
     s_tot = s_tot + -prob * np.log2(prob)
-  return np.float64(s_tot)
+  return s_tot
 
 
 #entropy of att calculation
@@ -49,7 +49,7 @@ def s_att(data, attri):
       # + 0.0001 added to avoid div by zero area 
       s_i = s_i + -prob * np.log2(prob + eps)
     s = s + (cnt_tot/len(data))*s_i
-  return np.float64(s)
+  return s
 
 
 # majority error total
@@ -102,24 +102,30 @@ def gini_tot(data):
   return gi_final
 
 
-#get gini att
-def gini_attribs(data, att):
+#gini of attribs
+def gini_attribs(data, attr):
+  #get label col name
   label = data.columns[-1]
-  unique_att = data[att].unique()
-  uniqu_val = data[label].unique()
-  gini_att = 0
-  gi = []
-  for atrribs in unique_att:
+  #get uniq attributes
+  uniqu_att = data[attr].unique()
+  #uniq labels
+  uniq_labls = data[label].unique()
+  gi = 0
+  gi_0 = []
+  for vals in uniqu_att:
     gi_i = 1
-    for vals_ in uniqu_val:
-      cnt_ = len(data[att][data[att] == atrribs][data[label] == vals_])
-      total_cnt = len(data[att][data[att] == atrribs])
-      prob = cnt_/total_cnt
-      gi_i = gi_i + -prob**2
-      gi.append(gi_i)
-      for i in gi:
-        gini_att = gini_att + (total_cnt/len(data))*gi_i
-  return np.float64(gini_att)
+    for lbl in uniq_labls:
+      cnt_att = len(data[attr][data[attr]==vals][data[label]==lbl])
+      tot_att = len(data[attr][data[attr]==vals])
+      prob = (cnt_att/tot_att)**2
+      gi__ = gi_i + -prob
+      comb_prob = tot_att/len(data)
+      g_f = gi + comb_prob*gi__
+      gi_0.append(g_f)
+  gi_final = sum(gi_0)
+  return gi_final
+
+
 
 
 #get gain interested in 
