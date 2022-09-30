@@ -149,7 +149,7 @@ def inf_gain(data, gain):
     pass
 
 
-#pop df and index
+#pop df and index and return subtable
 def popu_df(data, att, val):
   return data[data[att] == val].reset_index(drop = True)
 
