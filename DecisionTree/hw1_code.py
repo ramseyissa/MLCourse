@@ -22,7 +22,7 @@ test_bank = pd.read_csv('DecisionTree/testbank.csv')
 
 
 
-#
+
 #entropy of dataset calculation
 def s_tot(data):
   #get data label col name
