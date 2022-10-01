@@ -145,8 +145,7 @@ def inf_gain(data, gain):
     for key in data.columns[:-1]:
       infor_gain.append(gini_tot(data) - gini_attribs(data, key))
     return data.keys()[:-1][np.argmax(infor_gain)]
-  else:
-    pass
+  
 
 
 #pop df and index and return subtable
@@ -182,11 +181,11 @@ def ID3(data, tree = None, gain = 'S', tree_depth=50):
       if deph<tree_depth:
         #recursive call if not pure 
         tree[node][att_cnt] = ID3(updated_data)
-      elif deph==tree_depth:
+      else: 
+        deph==tree_depth
         max_labl = np.where(lbl_cnts == np.amax(lbl_cnts))
         tree[node][att_cnt] = lbl_val[max_labl[0][0]]
-      else:
-        pass
+      
   return tree
 
 #stackoverflow solution for nested dict
@@ -228,11 +227,9 @@ def predt(data, tree):
     #add 1 for error 0 for non-error
     if prediction == data[data.columns[-1]][i]:
       error.append(0)
-    elif prediction != data[data.columns[-1]][i]:
+    else: 
+      prediction != data[data.columns[-1]][i]
       error.append(1)
-    else:
-      pass
-      #pred err 
   pred_error = sum(error)/len(label_predicted)
   return pred_error
 
