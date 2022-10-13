@@ -8,10 +8,10 @@ import pandas as pd
 #this work was done incollaboration with Hasan Sayeed PhD candidate MSE
 
 
-train_car= pd.read_csv('DecisionTree/train.csv')
-test_car = pd.read_csv('DecisionTree/test.csv')
-train_bank = pd.read_csv('DecisionTree/trainbank.csv')
-test_bank = pd.read_csv('DecisionTree/testbank.csv')
+train_car= pd.read_csv('train.csv')
+test_car = pd.read_csv('test.csv')
+train_bank = pd.read_csv('trainbank.csv')
+test_bank = pd.read_csv('testbank.csv')
 
 #entropy of dataset calculation
 def s_tot(data):
@@ -283,24 +283,17 @@ print(df_3a)
 #issues with forloop to replace unknown values 
 
 
-
-train_bank['age'] = train_bank['age'].replace('unknown','32')
-train_bank['job'] = train_bank['job'].replace('unknown','blue-collar')
-train_bank['marital'] = train_bank['marital'].replace('unknown','married')
-train_bank['education'] = train_bank['education'].replace('unknown','secondary')
-train_bank['default'] = train_bank['default'].replace('unknown','no')
-train_bank['balance'] = train_bank['balance'].replace('unknown','0')
-train_bank['housing'] = train_bank['housing'].replace('unknown','yes')
-train_bank['loan'] = train_bank['loan'].replace('unknown','no')
-train_bank['contact'] = train_bank['contact'].replace('unknown','cellular')
-train_bank['day'] = train_bank['day'].replace('unknown','20')
-train_bank['month'] = train_bank['month'].replace('unknown','may')
-train_bank['duration'] = train_bank['duration'].replace('unknown','85')
-train_bank['campaign'] = train_bank['campaign'].replace('unknown','1')
-train_bank['pdays'] = train_bank['pdays'].replace('unknown','-1')
-train_bank['previous'] = train_bank['previous'].replace('unknown','0')
-train_bank['poutcome'] = train_bank['poutcome'].replace('unknown','failure')
-train_bank['y'] = train_bank['y'].replace('unknown','no')
+def replace_vals(df):
+  df_nan = df.replace('unknown', np.NaN)
+  for col in df.keys():
+    val_cnts_dict = df_nan[col].value_counts().to_dict()
+    key_lst = list(val_cnts_dict.keys())
+    df_nan[col].fillna(key_lst[0],inplace = True)
+  return df_nan
+      
+      
+clnd_train_bank = replace_vals(train_bank)
+clnd_test_bank = replace_vals(test_bank)
 
 bank_train_df_16 = {}
 gain = ['S', 'me','gi']
@@ -309,10 +302,10 @@ dep = [1, 2, 3, 4, 5, 6,7,8,9,10,11,12,13,14,15,16]
 for g in gain:  
     train = []
     for i in dep:
-        tree= ID3(train_bank, gain = g, tree_depth = i)
+        tree= ID3(clnd_train_bank, gain = g, tree_depth = i)
         # true_val = ID3(train_bank, gain = g, tree_depth = i)
-        true_val = predt(train_bank, tree)
-        pred_acc = predt(test_bank, tree)
+        true_val = predt(clnd_train_bank, tree)
+        pred_acc = predt(clnd_test_bank, tree)
         # pred_err = ((true_val -pred_acc )/true_val)*100
         train.append(pred_acc)
     bank_train_df_16[g] = train
