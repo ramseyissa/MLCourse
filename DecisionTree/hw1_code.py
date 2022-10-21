@@ -4,10 +4,6 @@ import pandas as pd
 
 
 
-
-#this work was done incollaboration with Hasan Sayeed PhD candidate MSE
-
-
 train_car= pd.read_csv('train.csv')
 test_car = pd.read_csv('test.csv')
 train_bank = pd.read_csv('trainbank.csv')
