@@ -6,14 +6,11 @@ import math
 import matplotlib.pyplot as plt 
 
 
-train_data = pd.read_csv('EnsembleLearning/trainbank.csv')
-test_data = pd.read_csv('EnsembleLearning/testbank.csv')
-
 
 #set desired T value
 T = 10
 
-
+###-------------------###
 
 # TreeNode class 
 
@@ -140,28 +137,28 @@ class MID3:
 			w = weights[col==value]
 			w_sum = np.sum(w)
 			if w_sum > max_sum:
-				majority_label = value
+				maj_lbl = value
 				max_sum = w_sum
 
-		return majority_label
+		return maj_lbl
 
 	def get_heuristics(self):
 
 		if self.option == 0:
-			heuristics = self.calc_entropy
+			heur = self.calc_entropy
 		if self.option == 1:
-			heuristics = self.calc_ME
+			heur = self.calc_ME
 		if self.option == 2:
-			heuristics = self.calc_GI
+			heur = self.calc_GI
 
-		return heuristics
+		return heur
 
 
 
 	def get_feature_with_max_gain(self, data, label_dict, features_dict, weights):
 
-		heuristics = self.get_heuristics()
-		measure = heuristics(data, label_dict, weights)
+		heur = self.get_heuristics()
+		measure = heur(data, label_dict, weights)
 
 		total = np.sum(weights)
 
@@ -177,7 +174,7 @@ class MID3:
 				p = np.sum(temp_weights) /total
 				subset = data[data[f_name] == val]
 			
-				gain += p * heuristics(subset, label_dict, temp_weights)
+				gain += p * heur(subset, label_dict, temp_weights)
 
 			# get maximum gain and feature name	
 			gain = measure - gain
@@ -188,7 +185,7 @@ class MID3:
 		return max_f_name
 		
 
-	def best_feature_split(self, cur_node):
+	def ft_splt(self, cur_node):
 		next_nodes = []
 		features_dict = cur_node['features_dict']
 		label_dict = cur_node['label_dict']
@@ -202,16 +199,16 @@ class MID3:
 		
 		total = sum(weights)
 		if total > 0:
-			majority_label = self.get_majority_label(data, label_dict, weights)
+			maj_lbl = self.get_majority_label(data, label_dict, weights)
 			
-		heuristics = self.get_heuristics()
-		measure = heuristics(data, label_dict, weights)
+		heur = self.get_heuristics()
+		measure = heur(data, label_dict, weights)
 
 		# check leaf nodes
 		if measure == 0 or dt_node.cnt_dpth() == self.max_depth or len(features_dict) == 0:
 			dt_node.leaf(True)
 			if total > 0:
-				dt_node.lbl(majority_label)
+				dt_node.lbl(maj_lbl)
 			return next_nodes
 
 		
@@ -227,7 +224,7 @@ class MID3:
 
 		for val in features_dict[max_f_name]:
 			child_node = TreeNode()
-			child_node.lbl(majority_label)
+			child_node.lbl(maj_lbl)
 			child_node.dpth(dt_node.cnt_dpth() + 1)
 			children[val] = child_node
 			w = weights[col==val]
@@ -253,7 +250,7 @@ class MID3:
 		Q.put(root)
 		while not Q.empty():
 			cur_node = Q.get()
-			for node in self.best_feature_split(cur_node):
+			for node in self.ft_splt(cur_node):
 				Q.put(node)
 		return dt_root
 	
@@ -311,9 +308,9 @@ types = {'age': int, 'job': str, 'marital': str, 'education': str,'default': str
 		'campaign': int,'pdays': int,'previous': int,'poutcome': str,'y': str}
 
 # load train data 
-train_data =  pd.read_csv('EnsembleLearning/trainbank.csv', names=column_names, dtype=types)
+train_data =  pd.read_csv('EnsembleLearning/data/trainbank.csv', names=column_names, dtype=types)
 # # load test data 
-test_data =  pd.read_csv('EnsembleLearning/testbank.csv', names=column_names, dtype=types)
+test_data =  pd.read_csv('EnsembleLearning/data/testbank.csv', names=column_names, dtype=types)
 
 numerical_features = ['age', 'balance', 'day', 'duration', 'campaign', 'pdays', 'previous']
 
