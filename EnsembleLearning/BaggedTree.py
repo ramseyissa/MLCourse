@@ -17,9 +17,9 @@ numerical_features = ['age', 'balance', 'day', 'duration', 'campaign', 'pdays', 
 
 
 #bring in bank train/test set
-train_df =  pd.read_csv('EnsembleLearning/trainbank.csv', names=column_names, dtype=types)
+train_df =  pd.read_csv('~/Courses/Machine_Learning/MLCourse/EnsembleLearning/data/trainbank.csv', names=column_names, dtype=types)
 #bring in bank test set
-test_df =  pd.read_csv('EnsembleLearning/testbank.csv', names=column_names, dtype=types)
+test_df =  pd.read_csv('~/Courses/Machine_Learning/MLCourse/EnsembleLearning/data/testbank.csv', names=column_names, dtype=types)
 
 # create tree node for ID3
 class TreeNode:

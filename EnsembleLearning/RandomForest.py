@@ -253,9 +253,9 @@ def bank_df():
 			'campaign': int,'pdays': int,'previous': int,'poutcome': str,'y': str}
 
 	# load train data 
-	train_data =  pd.read_csv('EnsembleLearning/trainbank.csv', names=column_names, dtype=types)
+	train_data =  pd.read_csv('~/Courses/Machine_Learning/MLCourse/EnsembleLearning/data/trainbank.csv', names=column_names, dtype=types)
 	# load test data 
-	test_data =  pd.read_csv('EnsembleLearning/testbank.csv', names=column_names, dtype=types)
+	test_data =  pd.read_csv('~/Courses/Machine_Learning/MLCourse/EnsembleLearning/data/testbank.csv', names=column_names, dtype=types)
 
 	numerical_features = ['age', 'balance', 'day', 'duration', 'campaign', 'pdays', 'previous']
 
