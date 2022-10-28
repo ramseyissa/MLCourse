@@ -1,8 +1,8 @@
-ECHO AdaBoost is running! 
+ECHO running AdaBoost!
 python3 AdaBoost.py
 
-ECHO Bagged Trees is running! 
+ECHO running BaggedTree!
 python3 BaggedTree.py
 
-ECHO RandomForest is running!
+ECHO running RandomForest!
 python3 RandomForest.py
