@@ -8,12 +8,24 @@ import matplotlib.pyplot as plt
 
 
 #set desired T value
-T = 50
+
+
+
+T = 10
+
+
+
+
+
 
 ###-------------------###
 
-# TreeNode class 
 
+
+
+
+
+# TreeNode class 
 class TreeNode:
 	def __init__(self):
 		self.feature = None
@@ -49,23 +61,14 @@ class TreeNode:
 		return self.label 
 
 class MID3:
-	# Option 0: Entropy, option 1: ME, Option 2: GI
 	def __init__(self, option=1, max_depth = 10):
 		self.option = option
 		self.max_depth = max_depth
-	
-	
 	def set_max_depth(self, max_depth):
 		self.max_depth = max_depth
-
-
 	def set_option(self, option):
 		self.option = option
-
 	def entrop(self, data, label_dict, weights):
-		"""
-		This function returns entropy for a specific data subsets and a set of labels
-		"""
 		label_key = list(label_dict.keys())[0]
 		label_values = label_dict[label_key]
 		total = np.sum(weights)
@@ -82,11 +85,8 @@ class MID3:
 			if p != 0:
 				entropy += -p * math.log2(p)
 		return entropy
-	
+	#me of df
 	def me_df(self, data, label_dict, weights):
-		"""
-		This function returns ME for a specific data subsets and a set of labels
-		"""
 		label_key = list(label_dict.keys())[0]
 		label_values = label_dict[label_key]
 		total = np.sum(weights)
@@ -102,11 +102,8 @@ class MID3:
 			max_p = max(max_p, p)
 		return 1 - max_p
 		
-	
+	#gi of df
 	def gi_df(self, data, label_dict):
-		"""
-		This function returns GI for a specific data subsets and a set of labels
-		"""
 		label_key = list(label_dict.keys())[0]
 		label_values = label_dict[label_key]
 		total = np.sum(weights)
@@ -122,11 +119,8 @@ class MID3:
 			temp += p**2
 		return 1 - temp
 	
-
+#maj label
 	def maj_lbl(self, data, label_dict, weights):
-		"""
-		This function returns the major label
-		"""
 		label_key = list(label_dict.keys())[0]
 		label_values = label_dict[label_key]
 
@@ -261,7 +255,7 @@ class MID3:
 			temp = temp.children[data[temp.feature]]
 		return temp.label
 
-	def predict(self, dt, data):
+	def pred_(self, dt, data):
 		return data.apply(lambda row: self.classify_one(dt, row), axis=1)
 
 
@@ -359,13 +353,13 @@ for t in range(T):
 	dt_construction = dt_generator.cons_tree(train_data, features_dict, label_dict, weights)
 
 	# train errors
-	train_data['pred_label']= dt_generator.predict(dt_construction, train_data)
+	train_data['pred_label']= dt_generator.pred_(dt_construction, train_data)
 	train_data['result'] = (train_data[['y']].values == train_data[['pred_label']].values).all(axis=1).astype(int)
 	err = 1 - len(train_data[train_data['result'] == 1]) / train_size
 	train_errors[t] = err
 
 	# test errors
-	test_data['pred_label']= dt_generator.predict(dt_construction, test_data)
+	test_data['pred_label']= dt_generator.pred_(dt_construction, test_data)
 	test_data['result'] = (test_data[['y']].values == test_data[['pred_label']].values).all(axis=1).astype(int)
 	test_errors[t] = 1 - len(test_data[test_data['result'] == 1]) / test_size
 	
