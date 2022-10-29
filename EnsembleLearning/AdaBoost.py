@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 
 
 
-T = 10
+T = 50
 
 
 
