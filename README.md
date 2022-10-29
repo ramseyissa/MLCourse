@@ -11,3 +11,5 @@ simply run the run.sh file and this will run all 3 algorithms.
 
 For linear regression, simply run the run.sh file and it will excute all segements for
 the linear regression problem. 
+
+If run.sh fails, individual .py files can be run in each folder.
