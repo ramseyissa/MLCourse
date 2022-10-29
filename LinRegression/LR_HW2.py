@@ -6,10 +6,10 @@ import matplotlib.pyplot as plt
 from numpy.linalg import inv
 
 #bring in datasets
-train = np.loadtxt('LinRegression/data/train.csv', delimiter =',',usecols = range(8))
-   
-test = np.loadtxt('LinRegression/data/test.csv', delimiter =',',usecols = range(8))
-#intial attempt
+train = np.loadtxt('data/train.csv', delimiter =',',usecols = range(8))
+  
+test = np.loadtxt('data/test.csv', delimiter =',',usecols = range(8))
+#intial attempt remove
 class lms_w:
     def __init__(self, weights: list):
         self.weights = weights

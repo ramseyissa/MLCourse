@@ -331,7 +331,7 @@ lbl_dicti['y'] = ['yes', 'no']
 
 #--------SET T ------
 
-T = 5
+T = 50
 
 tain_count, t_size = len(train_df),len(test_df)
 train_err, tst_err = [0 for x in range(T)], [0 for x in range(T)]

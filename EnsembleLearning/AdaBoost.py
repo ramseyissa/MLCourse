@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 
 #set desired T value
-T = 10
+T = 50
 
 ###-------------------###
 
@@ -62,7 +62,7 @@ class MID3:
 	def set_option(self, option):
 		self.option = option
 
-	def calc_entropy(self, data, label_dict, weights):
+	def entrop(self, data, label_dict, weights):
 		"""
 		This function returns entropy for a specific data subsets and a set of labels
 		"""
@@ -83,7 +83,7 @@ class MID3:
 				entropy += -p * math.log2(p)
 		return entropy
 	
-	def calc_ME(self, data, label_dict, weights):
+	def me_df(self, data, label_dict, weights):
 		"""
 		This function returns ME for a specific data subsets and a set of labels
 		"""
@@ -103,7 +103,7 @@ class MID3:
 		return 1 - max_p
 		
 	
-	def calc_GI(self, data, label_dict):
+	def gi_df(self, data, label_dict):
 		"""
 		This function returns GI for a specific data subsets and a set of labels
 		"""
@@ -123,7 +123,7 @@ class MID3:
 		return 1 - temp
 	
 
-	def get_majority_label(self, data, label_dict, weights):
+	def maj_lbl(self, data, label_dict, weights):
 		"""
 		This function returns the major label
 		"""
@@ -142,22 +142,22 @@ class MID3:
 
 		return maj_lbl
 
-	def get_heuristics(self):
+	def gain_opt(self):
 
 		if self.option == 0:
-			heur = self.calc_entropy
+			heur = self.entrop
 		if self.option == 1:
-			heur = self.calc_ME
+			heur = self.me_df
 		if self.option == 2:
-			heur = self.calc_GI
+			heur = self.gi_df
 
 		return heur
 
 
 
-	def get_feature_with_max_gain(self, data, label_dict, features_dict, weights):
+	def max_gain_(self, data, label_dict, features_dict, weights):
 
-		heur = self.get_heuristics()
+		heur = self.gain_opt()
 		measure = heur(data, label_dict, weights)
 
 		total = np.sum(weights)
@@ -199,9 +199,9 @@ class MID3:
 		
 		total = sum(weights)
 		if total > 0:
-			maj_lbl = self.get_majority_label(data, label_dict, weights)
+			maj_lbl = self.maj_lbl(data, label_dict, weights)
 			
-		heur = self.get_heuristics()
+		heur = self.gain_opt()
 		measure = heur(data, label_dict, weights)
 
 		# check leaf nodes
@@ -213,7 +213,7 @@ class MID3:
 
 		
 		children = {}
-		max_f_name = self.get_feature_with_max_gain(data, label_dict, features_dict, weights)
+		max_f_name = self.max_gain_(data, label_dict, features_dict, weights)
 		dt_node.feat(max_f_name)
 
 		# remove the feature that has been splitted on, get remaining features
