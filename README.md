@@ -1,8 +1,6 @@
 # CS6350
 This is a machine learning library developed by Ramsey Issa for CS5350/6350 in
-University of Utah. 
-
-Requirements.txt file added and can be used to install env to properly run algorithms. 
+University of Utah.  
 
 Algorithms Are found in Decision Tree, Ensmeble Learning, and LinRegression folders. 
 For Decision Tree simply use the run.sh file and the decision tree will run to
