@@ -73,10 +73,8 @@ class ID3:
 	def choose_gain(self, option):
 		self.option = option
 
+#entropy caculation
 	def entr(self, data, lbl_dicti):
-		"""
-		This function returns entropy for a specific data subsets and a set of labels
-		"""
 		label_key = list(lbl_dicti.keys())[0]
 		label_values = lbl_dicti[label_key]
 		if len(data) == 0:
@@ -87,11 +85,9 @@ class ID3:
 			if p != 0:
 				entropy += -p * math.log2(p)
 		return entropy
-	
+
+	#me of dataset
 	def me(self, data, lbl_dicti):
-		"""
-		This function returns ME for a specific data subsets and a set of labels
-		"""
 		label_key = list(lbl_dicti.keys())[0]
 		label_values = lbl_dicti[label_key]
 		if len(data) == 0:
@@ -102,11 +98,8 @@ class ID3:
 			max_p = max(max_p, p)
 		return 1 - max_p
 		
-	
+	# gini index values 
 	def gi(self, data, lbl_dicti):
-		"""
-		This function returns GI for a specific data subsets and a set of labels
-		"""
 		label_key = list(lbl_dicti.keys())[0]
 		label_values = lbl_dicti[label_key]
 		if len(data) == 0:
@@ -118,18 +111,12 @@ class ID3:
 		return 1 - temp
 	
  
-
+#majority label
 	def maj_lbl(self,column):
-		"""
-		This function returns the major label
-		"""
-
 		majority_label = column.value_counts().idxmax()
-
 		return majority_label
 
 	def iden_heur(self):
-
 		if self.option == 0:
 			heuristics = self.entr
 		if self.option == 1:
@@ -139,24 +126,18 @@ class ID3:
 
 		return heuristics
 
-
+#compute max gain
 	def maxim_gain(self, data, lbl_dicti, ft_):
-
 		heuristics = self.iden_heur()
 		measure = heuristics(data, lbl_dicti)
-
 		max_gain = float('-inf')
 		max_f_name = ''
-
 		for f_name, f_values in ft_.items():
 			gain = 0
 			for val in f_values:
 				subset = data[data[f_name] == val]
 				p = len(subset.index) / len(data)
-				
 				gain += p * heuristics(subset, lbl_dicti)
-
-			# get maximum gain and feature name	
 			gain = measure - gain
 			if gain > max_gain:
 				max_gain = gain
@@ -164,40 +145,29 @@ class ID3:
 
 		return max_f_name
 		
-
+#calculate best split 
 	def optimal_split(self, cur_node):
 		node_ = []
 		ft_ = cur_node['ft_']
 		lbl_dicti = cur_node['lbl_dicti']
 		tree_nd = cur_node['tree_nd']
 		data = cur_node['data']
-
-		
 		label_key = list(lbl_dicti.keys())[0]
 		label_values = lbl_dicti[label_key]
-		
 		if len(data) > 0:
 			majority_label = self.maj_lbl(data[label_key])
-			
 		heuristics = self.iden_heur()
 		measure = heuristics(data, lbl_dicti)
-
-		# check leaf nodes
 		if measure == 0 or tree_nd.dpth_() == self.max_depth or len(ft_) == 0:
 			tree_nd.set_leaf(True)
 			if len(data) > 0:
 				tree_nd.set_label(majority_label)
 			return node_
-
-		
 		children = {}
 		max_f_name = self.maxim_gain(data, lbl_dicti, ft_)
 		tree_nd.featr(max_f_name)
-
-		# remove the feature that has been splitted on, get remaining features
 		rf = copy.deepcopy(ft_)
 		rf.pop(max_f_name, None)
-	
 		for val in ft_[max_f_name]:
 			child_node = TreeNode()
 			child_node.set_label(majority_label)
@@ -205,10 +175,7 @@ class ID3:
 			children[val] = child_node
 			primary_node = {'data': data[data[max_f_name] == val],'ft_': rf, 'lbl_dicti': lbl_dicti, 'tree_nd': child_node}
 			node_.append(primary_node)
-		
-		# set chiildren nodes
 		tree_nd.child_(children)
-		
 		return node_
 	   
 	

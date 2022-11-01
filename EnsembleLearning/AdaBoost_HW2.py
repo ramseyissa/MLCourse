@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 
 
 #set desired T value
+#this was set to 50 for expidited answer, but can be adjusted
 
 
 
@@ -60,7 +61,7 @@ class TreeNode:
 	def gt_labels(self):
 		return self.label 
 
-class MID3:
+class modfied_ID3:
 	def __init__(self, option=1, max_depth = 10):
 		self.option = option
 		self.max_depth = max_depth
@@ -148,7 +149,7 @@ class MID3:
 		return heur
 
 
-
+#calculate max gain 
 	def max_gain_(self, data, label_dict, features_dict, weights):
 
 		heur = self.gain_opt()
@@ -178,7 +179,7 @@ class MID3:
 
 		return max_f_name
 		
-
+#split on feat
 	def ft_splt(self, cur_node):
 		next_nodes = []
 		features_dict = cur_node['features_dict']
@@ -258,7 +259,7 @@ class MID3:
 	def pred_(self, dt, data):
 		return data.apply(lambda row: self.classify_one(dt, row), axis=1)
 
-
+#remove
 def predt_ins_tree(inst, tree):
   for node in tree.keys():
     prediction = 0
@@ -348,7 +349,7 @@ test_py = np.array([0 for x in range(test_size)])
 
 train_py = np.array([0 for x in range(train_size)])
 for t in range(T):
-	dt_generator = MID3(option=0, max_depth=1)
+	dt_generator = modfied_ID3(option=0, max_depth=1)
 			
 	dt_construction = dt_generator.cons_tree(train_data, features_dict, label_dict, weights)
 
@@ -388,14 +389,8 @@ for t in range(T):
 	pred_label[train_py > 0] = 'yes'
 	pred_label[train_py <= 0] = 'no'
 	train_data['pred_label'] = pd.Series(pred_label)
-
 	train_data['result'] = (train_data[['y']].values == train_data[['pred_label']].values).all(axis=1).astype(int)
-	
 	train_errorsT[t] = 1 - len(train_data[train_data['result'] == 1]) / train_size
-
-
-	#  test data 
-	
 	pred_label = np.array(test_data['pred_label'].tolist())
 	pred_label[pred_label == 'yes'] = 1 
 	pred_label[pred_label == 'no'] = -1
