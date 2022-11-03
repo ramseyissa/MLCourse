@@ -90,7 +90,7 @@ def cost_f(x, yvals, w):
 		res += temp 
 	return 0.5*res
 
-
+#lms grad calc. get w and cost
 def lms_grad(x, yvals, r):
 	costs = []  
 
