@@ -20,31 +20,7 @@ test = np.loadtxt('./LinRegression/data/test.csv', delimiter =',',usecols = rang
 #     def predict(self, x) -> list:
 #         return list(map(lambda d : np.dot(self.weights, d), x))
 
-#scg_inital
-# def scg_(xvalues, yvalues, lr: float = 1, epochs: int = 10, threshold = 1e-6):
 
-#     w = np.ones_like(xvalues[0])
-
-#     losses, lastloss, diff = [], 9999, 1
-#     for ep in range(epochs):
-#         if diff <= threshold: break
-#         # for each element, update weights
-#         for xi, yi in zip(xvalues, yvalues):
-#             for j in range(len(w)):
-#                 w[j] += lr * (yi - np.dot(w, xi)) * xi[j]
-
-#             # compute loss
-#             loss = 0
-#             for xi, yi in zip(xvalues, yvalues):
-#                 loss += (yi - np.dot(w, xi))**2
-#             loss /= 2
-            
-#             diff = abs(loss - lastloss)
-#             lastloss = loss
-#             losses.append(loss)
-
-#     print(f"converged at epoch {ep} to {diff}")
-#     return lms_w(w), losses
 
 
 #define sgd cost function remove intial attempt
@@ -79,6 +55,32 @@ def sgd(x, yvals, r):
 
 	return w, cost
 
+
+#scg_inital
+def scg_(xvalues, yvalues, lr: float = 1, epochs: int = 10, threshold = 1e-6):
+
+    w = np.ones_like(xvalues[0])
+
+    losses, lastloss, diff = [], 9999, 1
+    for ep in range(epochs):
+        if diff <= threshold: break
+        # for each element, update weights
+        for xi, yi in zip(xvalues, yvalues):
+            for j in range(len(w)):
+                w[j] += lr * (yi - np.dot(w, xi)) * xi[j]
+
+            # compute loss
+            loss = 0
+            for xi, yi in zip(xvalues, yvalues):
+                loss += (yi - np.dot(w, xi))**2
+            loss /= 2
+            
+            diff = abs(loss - lastloss)
+            lastloss = loss
+            losses.append(loss)
+
+    print(f"converged at epoch {ep} to {diff}")
+    return lms_w(w), losses
 
 
 def cost_f(x, yvals, w):
