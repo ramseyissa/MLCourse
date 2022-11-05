@@ -9,16 +9,7 @@ from numpy.linalg import inv
 train = np.loadtxt('./LinRegression/data/train.csv', delimiter =',',usecols = range(8))
   
 test = np.loadtxt('./LinRegression/data/test.csv', delimiter =',',usecols = range(8))
-#intial attempt remove
-# class lms_w:
-#     def __init__(self, weights: list):
-#         self.weights = weights
 
-#     def __str__(self) -> str:
-#         return str(self.weights)
-
-#     def predict(self, x) -> list:
-#         return list(map(lambda d : np.dot(self.weights, d), x))
 
 
 
